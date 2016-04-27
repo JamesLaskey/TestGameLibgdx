@@ -1,1 +1,2 @@
+include ':logic'
 include 'desktop', 'android', 'core'
