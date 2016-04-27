@@ -12,5 +12,5 @@ trait StaticEntity extends Entity {
 }
 
 trait MobileEntity extends Entity {
-
+  def move(): Unit
 }
