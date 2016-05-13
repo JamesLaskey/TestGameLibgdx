@@ -17,9 +17,11 @@ trait StaticEntity extends Entity {
 trait MobileEntity extends Entity {
   protected var currentPosition: Entity.Posn
 
+  def getCurrentPosition(): Entity.Posn = currentPosition
+
   //GameMap.addMobileEntityToMap(currentPosition, this)
 
-  abstract def move(start : Entity.Posn) : Entity.Posn
+  def move(start : Entity.Posn) : Entity.Posn
 
   def tick(): Unit = {
     val oldPosn = currentPosition

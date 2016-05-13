@@ -9,6 +9,10 @@ object GameInstance {
 
   entities =  new Robot(1, "robo", (0, 0, 0)) :: entities
 
+  for (entity <- entities) {
+    GameMap.addMobileEntityToMap(entity.getCurrentPosition(), entity)
+  }
+
   def tick(): Unit = {
     for (entity <- entities) {
       entity.tick()
