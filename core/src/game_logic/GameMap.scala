@@ -27,9 +27,14 @@ object GameMap {
   def addMobileEntityToMap(posn: (Int, Int, Int), entity: MobileEntity): Unit = {
     internalMap get posn match {
       case Some(OccupiedBlock(mobile, static)) => {
-
+        internalMap = internalMap updated (posn, OccupiedBlock(entity :: mobile, static))
       }
-        s
+      case None => {
+        internalMap = internalMap + (posn -> OccupiedBlock(entity :: List(), List()))
+      }
+      case Some(x) => {
+        throw new RuntimeException("Tried to create entity in invalid location")
+      }
     }
 
   }
