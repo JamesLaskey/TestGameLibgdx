@@ -1,5 +1,7 @@
 package game_logic
 
+
+
 /**
   * Created by jim on 4/26/16.
   */
@@ -13,12 +15,16 @@ trait StaticEntity extends Entity {
 }
 
 trait MobileEntity extends Entity {
-  var posn: (Int, Int, Int)
-  def move(): Unit
+  protected var currentPosition: Entity.Posn
+
+  //GameMap.addMobileEntityToMap(currentPosition, this)
+
+  abstract def move(start : Entity.Posn) : Entity.Posn
+
   def tick(): Unit = {
-    val oldPosn = posn
-    this.move()
-    val newPosn = posn
+    val oldPosn = currentPosition
+
+    val newPosn = move(this.currentPosition)
 
     if (oldPosn == newPosn) return
 
@@ -47,4 +53,8 @@ trait MobileEntity extends Entity {
       }
     }
   }
+}
+
+object Entity {
+  type Posn = (Int, Int, Int)
 }

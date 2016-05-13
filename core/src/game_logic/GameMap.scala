@@ -24,7 +24,7 @@ object GameMap {
     println(GameMap.internalMap)
   }
 
-  def addMobileEntityToMap(posn: (Int, Int, Int), entity: MobileEntity): Unit = {
+  def addMobileEntityToMap(posn: Entity.Posn, entity: MobileEntity): Unit = {
     internalMap get posn match {
       case Some(OccupiedBlock(mobile, static)) => {
         internalMap = internalMap updated (posn, OccupiedBlock(entity :: mobile, static))
