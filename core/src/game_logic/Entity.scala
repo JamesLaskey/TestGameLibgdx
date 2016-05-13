@@ -19,7 +19,7 @@ trait MobileEntity extends Entity {
 
   //GameMap.addMobileEntityToMap(currentPosition, this)
 
-  abstract def move(start : Entity.Posn) : Entity.Posn
+  def move(start : Entity.Posn) : Entity.Posn
 
   def tick(): Unit = {
     val oldPosn = currentPosition
