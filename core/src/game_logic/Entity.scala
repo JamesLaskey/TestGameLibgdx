@@ -33,7 +33,7 @@ trait MobileEntity extends Entity {
       case OccupiedBlock(mobile, static) => {
         val newBlock = OccupiedBlock(mobile.filterNot(x => x == this), static)
         if (newBlock.mobileEntities.isEmpty && newBlock.staticEntities.isEmpty) {
-          GameMap.internalMap = GameMap.internalMap - posn
+          GameMap.internalMap = GameMap.internalMap - currentPosition
         } else {
           GameMap.internalMap = GameMap.internalMap updated (oldPosn, newBlock)
         }
