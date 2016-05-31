@@ -70,8 +70,6 @@ class WorldScreen(game: RobotFortress) extends Screen {
     var dragLastX = -1
     var dragLastY = -1
 
-
-
     override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
       dragLastX = screenX
       dragLastY = screenY

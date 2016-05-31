@@ -17,6 +17,7 @@ object GameInstance {
     for (entity <- entities) {
       entity.tick()
     }
+    println(entities.head.getCurrentPosition())
   }
 
 

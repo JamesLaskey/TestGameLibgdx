@@ -9,10 +9,15 @@ class Robot(val id : Int, var name : String = "", var currentPosition: Entity.Po
 
   if (name.isEmpty) name = id.toString
 
+  val moveWait = 500 // ms
+  var lastMoveTime = System.currentTimeMillis()
+
   def randomWalk(start : Entity.Posn): Entity.Posn = {
-    if (!(Random.nextBoolean() && Random.nextBoolean())) {
+    val time = System.currentTimeMillis()
+    if (time - lastMoveTime < moveWait) {
       return start
     }
+    lastMoveTime = time
     var (x, y, z) = start
     if (Random.nextBoolean()) {
       if (Random.nextBoolean() && x < GameMap.xSize - 1) {

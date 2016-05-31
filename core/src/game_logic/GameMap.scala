@@ -5,9 +5,9 @@ package game_logic
   */
 object GameMap {
 
-  val xSize = 10
-  val ySize = 10
-  val zSize = 10
+  val xSize = 100
+  val ySize = 100
+  val zSize = 100
 
   def generateRandomMap() : Map[(Int, Int, Int), MapCell] = {
     var map : Map[(Int, Int, Int), MapCell] = Map()
