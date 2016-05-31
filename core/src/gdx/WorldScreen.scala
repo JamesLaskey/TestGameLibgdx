@@ -1,7 +1,7 @@
 package gdx
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.{Gdx, Screen}
+import com.badlogic.gdx.{InputAdapter, InputProcessor, Gdx, Screen}
 import com.badlogic.gdx.graphics.{Texture, GL20, OrthographicCamera}
 import game_logic._
 
@@ -11,6 +11,9 @@ import game_logic._
 class WorldScreen(game: RobotFortress) extends Screen {
   val camera = new OrthographicCamera()
   camera.setToOrtho(false)
+
+  val inputProcessor = new MapController
+  Gdx.input.setInputProcessor(inputProcessor)
 
   val gameInstance = GameInstance
 
@@ -30,7 +33,7 @@ class WorldScreen(game: RobotFortress) extends Screen {
     Gdx.gl.glClearColor(0.1f, .8f, .3f, 1)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-    camera.update();
+    camera.update()
     game.batch.setProjectionMatrix(camera.combined);
     game.batch.begin()
     renderGameInstance(game.batch)
@@ -61,4 +64,29 @@ class WorldScreen(game: RobotFortress) extends Screen {
   override def show(): Unit = {}
 
   override def resume(): Unit = {}
+
+  class MapController extends InputAdapter {
+
+    var dragLastX = -1
+    var dragLastY = -1
+
+
+
+    override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
+      dragLastX = screenX
+      dragLastY = screenY
+      true
+    }
+
+    override def touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean = {
+      camera.translate(dragLastX - screenX, screenY - dragLastY)
+      dragLastX = screenX
+      dragLastY = screenY
+      true
+    }
+  }
+
+
+
+
 }
