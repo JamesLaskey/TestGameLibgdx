@@ -5,9 +5,9 @@ package game_logic
   */
 object GameMap {
 
-  val xSize = 100
-  val ySize = 100
-  val zSize = 100
+  val xSize = 10
+  val ySize = 10
+  val zSize = 10
 
   def generateRandomMap() : Map[(Int, Int, Int), MapCell] = {
     var map : Map[(Int, Int, Int), MapCell] = Map()
@@ -20,9 +20,21 @@ object GameMap {
   }
   var internalMap : Map[(Int, Int, Int), MapCell] = generateRandomMap()
 
-  def main(args: Array[String]): Unit = {
-    println(GameMap.internalMap)
+  def removeMobileEntityFromMap(posn: Entity.Posn, entity: MobileEntity): Unit = {
+    GameMap.internalMap(posn) match {
+      case OccupiedBlock(mobile, static) => {
+        val newBlock = OccupiedBlock(mobile.filterNot(x => x == entity), static)
+        if (newBlock.mobileEntities.isEmpty && newBlock.staticEntities.isEmpty) {
+          GameMap.internalMap = GameMap.internalMap - posn
+        } else {
+          GameMap.internalMap = GameMap.internalMap updated (posn, newBlock)
+        }
+      }
+      case _ => throw new Exception("Entity was not in  map")
+    }
+
   }
+
 
   def addMobileEntityToMap(posn: Entity.Posn, entity: MobileEntity): Unit = {
     internalMap get posn match {
@@ -33,7 +45,7 @@ object GameMap {
         internalMap = internalMap + (posn -> OccupiedBlock(entity :: List(), List()))
       }
       case Some(x) => {
-        throw new RuntimeException("Tried to create entity in invalid location")
+        throw new RuntimeException("Tried to put entity in invalid location")
       }
     }
 

@@ -3,7 +3,7 @@ package gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.{Gdx, Screen}
 import com.badlogic.gdx.graphics.{Texture, GL20, OrthographicCamera}
-import game_logic.{SolidBlock, OccupiedBlock, GameInstance, Robot}
+import game_logic._
 
 /**
   * Created by emily on 4/29/16.
@@ -47,7 +47,9 @@ class WorldScreen(game: RobotFortress) extends Screen {
     for (((x, y, z), cell) <- map) {
       cell match {
         case OccupiedBlock(mobile, static) => {
-
+          for(mobileEntity <- mobile) {
+            batch.draw(robotImage, x * gridSize, z * gridSize)
+          }
         }
         case SolidBlock(block) => {
           batch.draw(solidBlockImage, x * gridSize, z * gridSize)

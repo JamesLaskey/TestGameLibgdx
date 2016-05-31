@@ -31,6 +31,8 @@ class Robot(val id : Int, var name : String = "", var currentPosition: Entity.Po
   }
 
   override def move(start : Entity.Posn) : Entity.Posn = randomWalk(start)
+
+  override def toString: String = "Robot " + id + ": " + name
 }
 
 object Robot {
