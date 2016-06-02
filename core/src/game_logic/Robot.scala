@@ -5,6 +5,9 @@ import scala.util.Random
 /**
   * Created by jim on 4/26/16.
   */
+
+
+
 class Robot(val id : Int, var name : String = "", var currentPosition: Entity.Posn = (0, 0, 0)) extends MobileEntity {
 
   if (name.isEmpty) name = id.toString

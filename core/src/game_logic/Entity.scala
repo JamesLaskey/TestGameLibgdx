@@ -10,9 +10,8 @@ trait Entity {
 
 }
 
-trait StaticEntity extends Entity {
+trait StaticEntity extends Entity
 
-}
 
 trait MobileEntity extends Entity {
   protected var currentPosition: Entity.Posn
