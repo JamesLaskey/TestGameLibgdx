@@ -10,7 +10,16 @@ class Entity2(val id: Int) {
   var move: Option[Movement.Movement] = None
 }
 
+trait Component
+
+object Component{
+  type String = String with Component
+  type Movement = Movement.Movement with Component
+}
+
 object RobotFactory {
+
+
   def makeRobot(): Entity2 = {
     val robot = new Entity2(Random.nextInt())
     robot.name = Some("Robo-" + robot.id)
@@ -21,14 +30,14 @@ object RobotFactory {
 
 class Entity3(val id: Int) {
 
-  var components: Map[String, Any] = Map()
-  def apply(component:String): Any = {
+  var components: Map[String, Component] = Map()
+  def apply(component:String): Component = {
     components(component)
   }
   def contains(component:String): Boolean = {
     components contains component
   }
-  def add(component:String, data:Any) = {
+  def add(component:String, data:Component) = {
     components = components + (component -> data)
   }
   def remove(component:String) = {
