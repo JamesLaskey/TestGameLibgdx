@@ -1,5 +1,4 @@
 package game_logic
-
 import scala.util.Random
 
 /**
@@ -10,15 +9,8 @@ class Entity2(val id: Int) {
   var move: Option[Movement.Movement] = None
 }
 
-trait Component
-
-object Component{
-  type String = String with Component
-  type Movement = Movement.Movement with Component
-}
 
 object RobotFactory {
-
 
   def makeRobot(): Entity2 = {
     val robot = new Entity2(Random.nextInt())
@@ -30,14 +22,14 @@ object RobotFactory {
 
 class Entity3(val id: Int) {
 
-  var components: Map[String, Component] = Map()
-  def apply(component:String): Component = {
+  var components: Map[String, Any] = Map()
+  def apply(component:String): Any = {
     components(component)
   }
   def contains(component:String): Boolean = {
     components contains component
   }
-  def add(component:String, data:Component) = {
+  def add(component:String, data:Any) = {
     components = components + (component -> data)
   }
   def remove(component:String) = {
@@ -47,7 +39,9 @@ class Entity3(val id: Int) {
 
 object Entity3 {
   val NAME = "name"
+  type NAME_t = String
   val MOVE = "move"
+  type MOVE_t = Movement.Movement
 }
 
 object RobotFactory3 {
@@ -57,4 +51,42 @@ object RobotFactory3 {
     robot.add(Entity3.MOVE, Movement.randomWalk)
     robot
   }
+}
+
+class Entity4 (val id: Int) {
+  var stringComponents: Map[String,String] = Map()
+  var intComponents: Map[String,Int] = Map()
+  var floatComponents: Map[String,Float] = Map()
+
+  def apply(component:String): Any = {
+    if (stringComponents contains component) return stringComponents(component)
+    if (floatComponents contains component) return floatComponents(component)
+    if (intComponents contains component) return intComponents(component)
+    return null
+  }
+
+  def getString(component:String): Option[String] = {
+    stringComponents get component
+  }
+  def getFloat(component:String): Option[Float] = {
+    floatComponents get component
+  }
+  def getInt(component:String): Option[Int] = {
+    intComponents get component
+  }
+  def add(name: String, component: String): Unit = {
+    stringComponents = stringComponents + (name -> component)
+  }
+  def add(name: String, component: Float): Unit = {
+    floatComponents = floatComponents + (name -> component)
+  }
+  def add(name: String, component: Int): Unit = {
+    intComponents = intComponents + (name -> component)
+  }
+  def remove(name: String): Unit = {
+    if (stringComponents contains name) stringComponents = stringComponents - name
+    if (intComponents contains name) intComponents = intComponents - name
+    if (floatComponents contains name) floatComponents = floatComponents - name
+  }
+
 }
