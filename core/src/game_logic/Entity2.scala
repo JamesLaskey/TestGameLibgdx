@@ -1,5 +1,6 @@
 package game_logic
 import scala.util.Random
+import scala.collection.Map
 
 /**
   * Created by emily on 6/2/16.

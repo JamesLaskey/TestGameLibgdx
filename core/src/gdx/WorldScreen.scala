@@ -1,6 +1,8 @@
 package gdx
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.input.GestureDetector
+import com.badlogic.gdx.input.GestureDetector.{GestureAdapter, GestureListener}
 import com.badlogic.gdx.{InputAdapter, InputProcessor, Gdx, Screen}
 import com.badlogic.gdx.graphics.{Texture, GL20, OrthographicCamera}
 import game_logic._
@@ -12,8 +14,8 @@ class WorldScreen(game: RobotFortress) extends Screen {
   val camera = new OrthographicCamera()
   camera.setToOrtho(false)
 
-  val inputProcessor = new MapController
-  Gdx.input.setInputProcessor(inputProcessor)
+  val inputProcessor = new MapGestures
+  Gdx.input.setInputProcessor(new GestureDetector(inputProcessor))
 
   val gameInstance = GameInstance
 
@@ -40,8 +42,8 @@ class WorldScreen(game: RobotFortress) extends Screen {
     game.batch.end()
   }
 
-  val solidBlockImage = new Texture(Gdx.files.internal("assets/solid.png"))
-  val robotImage = new Texture(Gdx.files.internal("assets/robot.png"))
+  val solidBlockImage = new Texture(Gdx.files.internal("solid.png"))
+  val robotImage = new Texture(Gdx.files.internal("robot.png"))
   val gridSize = 40
 
   def renderGameInstance(batch: SpriteBatch): Unit = {
@@ -65,21 +67,26 @@ class WorldScreen(game: RobotFortress) extends Screen {
 
   override def resume(): Unit = {}
 
-  class MapController extends InputAdapter {
+  class MapGestures extends GestureAdapter {
 
     var dragLastX = -1
     var dragLastY = -1
 
-    override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
-      dragLastX = screenX
-      dragLastY = screenY
+    var initialZoom = 1f
+
+    override def touchDown(x : Float, y : Float, pointer : Int, button : Int) : Boolean = {
+      initialZoom = camera.zoom
+      false
+    }
+
+    override def pan(x : Float, y : Float, deltaX : Float, deltaY : Float) : Boolean = {
+      camera.translate(-deltaX * camera.zoom, deltaY * camera.zoom)
       true
     }
 
-    override def touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean = {
-      camera.translate(dragLastX - screenX, screenY - dragLastY)
-      dragLastX = screenX
-      dragLastY = screenY
+    override def zoom(originalDistance : Float, newDistance : Float): Boolean = {
+      val ratio = originalDistance / newDistance
+      camera.zoom = initialZoom * ratio
       true
     }
   }

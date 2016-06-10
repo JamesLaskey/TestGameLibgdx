@@ -1,4 +1,5 @@
 package game_logic
+import scala.collection.Map
 
 /**
   * Created by jim on 4/26/16.
